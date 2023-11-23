@@ -13,11 +13,10 @@ export const ShadowRectangle = ({ shadowRectangleRef }) => {
       y={0}
       width={50}
       height={50}
-      fill="#FF7B17"
+      fill="#144d6e"
       opacity={0.0}
-      stroke="#CF6412"
+      stroke="#0a2f45"
       strokeWidth={3}
-      dash={[20, 2]}
       ref={shadowRectangleRef}
     />
   );
