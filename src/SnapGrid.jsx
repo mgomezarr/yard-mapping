@@ -73,7 +73,7 @@ const newRectangle = (x, y, layer, stage, shadowRectangleRef) => {
   });
 
   layer.add(rectangle);
-}; // Must be in ItemsContainer
+}; // New Item Container
 
 const GridLines = ({ width, height, padding }) => {
   const lines = [];

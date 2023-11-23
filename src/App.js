@@ -1,17 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Stage, Layer } from "react-konva";
 import { Grid } from "./components/Grid";
 import { ItemsContainer } from "./components/ItemsContainer";
+import { createNewItem } from "./components/SnapItem";
+import { ShadowRectangle } from "./components/ShadowItem";
 
-const Game = () => {
+const App = () => {
+  const stageRef = useRef();
+  const layerRef = useRef();
+  const shadowRectangleRef = useRef();
+
   const [rectangles, setRectangles] = useState([]);
   const [spaces, setSpaces] = useState([]);
-  const spaceWidth = 60;
-  const spaceHeight = 40;
+  const spaceWidth = 50;
+  const spaceHeight = 50;
   const numCols = 15;
   const numRows = 10;
 
   useEffect(() => {
+    // Snap logic
+    const stage = stageRef.current;
+    const layer = layerRef.current;
+
+    createNewItem(50, 50, layer, stage, shadowRectangleRef);
+    stage.add(layer);
+
     // Generar rectángulos con colores aleatorios
     const colors = ["#FF5733", "#33FF57", "#5733FF", "#33FFFF", "#FF33A1"];
     const generatedRectangles = colors.map((color, index) => ({
@@ -126,7 +139,7 @@ const Game = () => {
       >
         YMS - Yard Mapping
       </h1>
-      <Stage width={1500} height={800}>
+      <Stage width={1500} height={800} ref={stageRef}>
         <Layer>
           <Grid
             x={50}
@@ -142,21 +155,15 @@ const Game = () => {
             onDrop={handleDrop}
           />
         </Layer>
-        <Layer>
-          <ItemsContainer
-            items={rectangles}
-            itemWidth={60}
-            itemHeight={40}
-            onItemDragStart={handleDragStart}
-            onItemDragEnd={handleDragEnd}
-          />
+        <Layer ref={layerRef}>
+          <ShadowRectangle shadowRectangleRef={shadowRectangleRef} />
         </Layer>
       </Stage>
     </div>
   );
 };
 
-export default Game;
+export default App;
 
 // ------------------------------------------------------------
 
