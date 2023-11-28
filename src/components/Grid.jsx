@@ -1,6 +1,6 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Rect, Group } from "react-konva";
-import { getContainers } from "../www/container";
 
 export const Grid = ({
   x,
@@ -18,15 +18,48 @@ export const Grid = ({
   const [array, setArray] = useState([]);
 
   useEffect(() => {
-    setArray(getContainers());
-  }, [setArray]);
+    const getContainers = async () => {
+      const { data } = await axios.get(
+        "https://d6b8bdc5-aa40-4681-b8af-c005666d6734.mock.pstmn.io/architecture"
+      );
+      setArray(generateSpaces(data.dist));
+    };
+    getContainers();
+  }, []);
 
-  const generateSpaces = () => {
-    const array = [
-      [0, 1, 0, 0, 0, 1],
-      [0, 0, 1, 0, 1, 1],
-      [0, 0, 0, 0, 0, 0],
-    ];
+  // 0: no use (bg-white).
+  // 1: available (bg-gray).
+  // 2: busy (bg-black);
+  const backgroundColorSwitch = (state) => {
+    switch (state) {
+      case 0:
+        return "#fff";
+      case 1:
+        return "#ccc";
+      case 2:
+        return "#000";
+      default:
+        return "#fff";
+    }
+  };
+
+  // 0: no use (bg-white, border-white).
+  // 1: available (bg-gray, border-gray?).
+  // 2: busy (bg-black, border-black);
+  const strokeColorSwitch = (state) => {
+    switch (state) {
+      case 0:
+        return "";
+      case 1:
+        return "#a9a9a9";
+      case 2:
+        return "#a9a9a9";
+      default:
+        return "#fff";
+    }
+  };
+
+  const generateSpaces = (array) => {
     const spaces = [];
     const separation = 0;
 
@@ -41,19 +74,17 @@ export const Grid = ({
           y: spaceY,
           width: spaceWidth,
           height: spaceHeight,
-          color: state === 1 ? "#000" : "#ccc",
-          stroke: state === 1 ? "" : "#e9e9e9",
+          color: backgroundColorSwitch(state),
+          stroke: strokeColorSwitch(state),
         });
       }
     }
     return spaces;
   };
 
-  const spaces = generateSpaces();
-
   return (
     <Group>
-      {spaces.map((space) => (
+      {array.map((space) => (
         <Rect
           key={space.id}
           x={space.x}
