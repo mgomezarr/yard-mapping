@@ -9,7 +9,7 @@ export const createNewItem = (x, y, layer, stage, shadowsnapItemRef) => {
     y,
     width: 50,
     height: 50,
-    fill: "#2f3a69",
+    fill: "red",
     stroke: "#ddd",
     strokeWidth: 1,
     shadowColor: "black",

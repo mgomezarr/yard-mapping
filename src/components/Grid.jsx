@@ -1,4 +1,4 @@
-import axios from "axios";
+// import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Rect, Group } from "react-konva";
 
@@ -19,10 +19,26 @@ export const Grid = ({
 
   useEffect(() => {
     const getContainers = async () => {
-      const { data } = await axios.get(
-        "https://d6b8bdc5-aa40-4681-b8af-c005666d6734.mock.pstmn.io/architecture"
+      // const { data } = await axios.get(
+      //   "https://d6b8bdc5-aa40-4681-b8af-c005666d6734.mock.pstmn.io/architecture"
+      // );
+      // setArray(generateSpaces(data.dist));
+      setArray(
+        generateSpaces([
+          [2, 2, 1, 2, 1, 1, 1, 1, 1, 2, 2, 1, 1, 2, 1, 1, 2, 2],
+          [2, 2, 2, 2, 2, 2, 1, 2, 2, 1, 1, 2, 1, 1, 2, 2, 2, 1],
+          [1, 2, 1, 2, 2, 1, 1, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [1, 1, 1, 2, 2, 0, 0, 1, 1, 2, 1, 1, 1, 2, 2, 2, 2, 2],
+          [2, 1, 2, 2, 2, 0, 0, 2, 2, 1, 2, 2, 1, 1, 1, 2, 1, 2],
+          [1, 1, 1, 1, 1, 0, 0, 1, 2, 1, 1, 2, 1, 2, 1, 1, 1, 2],
+          [2, 1, 2, 2, 1, 0, 0, 2, 2, 2, 1, 2, 1, 1, 1, 1, 2, 2],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ])
       );
-      setArray(generateSpaces(data.dist));
     };
     getContainers();
   }, []);

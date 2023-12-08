@@ -2,13 +2,9 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App";
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Route,
-  Link,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Create } from "./pages/create";
+import { List } from "./pages/list";
 
 const router = createBrowserRouter([
   {
@@ -19,11 +15,12 @@ const router = createBrowserRouter([
     path: "create",
     element: <Create />,
   },
+  {
+    path: "list",
+    element: <List />,
+  },
 ]);
 
 createRoot(document.getElementById("root")).render(
   <RouterProvider router={router} />
 );
-
-// const root = createRoot(document.getElementById("root"));
-// root.render(<App />);

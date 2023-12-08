@@ -1,70 +1,74 @@
-# Getting Started with Create React App
+# Yard Mapping v.0.1.0
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![yms](./public/peek-yms.gif)
 
-## Available Scripts
+Este proyecto fue bootstrapped con [Create React App](https://github.com/facebook/create-react-app).
 
-In the project directory, you can run:
+Para iniciar el proyecto, ejecuta `npm start` desde la terminal.
 
-### `npm start`
+### Routes:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+/ => La raíz muestra el prototipo de desarrollo de Maps.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+/create => Form para creación de yards.
 
-### `npm test`
+/list => TODO: Visualización de yards creadas.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+### Peticiones
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### /architecture
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+La petición que se haría para visualizar la distribución devolverá un array de la siguiente forma para representar un yard:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```json
+{
+  "id": "{{$randomInt}}",
+  "name": "{{$randomWord}}",
+  "location": "{{$randomCity}}",
+  "rows": 10,
+  "cols": 6,
+  "limit": 3,
+  "dist": [
+    [2, 2, 1, 2, 1, 1, 1, 1, 1, 2, 2, 1, 1, 2, 1, 1, 2, 2],
+    [2, 2, 2, 2, 2, 2, 1, 2, 2, 1, 1, 2, 1, 1, 2, 2, 2, 1],
+    [1, 2, 1, 2, 2, 1, 1, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [1, 1, 1, 2, 2, 0, 0, 1, 1, 2, 1, 1, 1, 2, 2, 2, 2, 2],
+    [2, 1, 2, 2, 2, 0, 0, 2, 2, 1, 2, 2, 1, 1, 1, 2, 1, 2],
+    [1, 1, 1, 1, 1, 0, 0, 1, 2, 1, 1, 2, 1, 2, 1, 1, 1, 2],
+    [2, 1, 2, 2, 1, 0, 0, 2, 2, 2, 1, 2, 1, 1, 1, 1, 2, 2],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  ]
+}
+```
 
-### `npm run eject`
+Al tener la representación de la distribución espacial de los yards en un array bidimensional se hace más fácil controlar cada celda de forma individual sin afectar el performance de la herramienta. Cabe aclarar que cada número **representará un estado específico de la celda**.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Ese estado puede ser:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+> 0: deshabilitado (bg-white). Sirve para representar pasillos. TODO: implementar no-snap en esta zona.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+> 1: disponible (bg-gray). Se debe poder hacerle snap.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+> 2: ocupado. (bg-black).
 
-## Learn More
+Esta lista incluirá todos los posibles escenarios que pueda tener una celda, representados en un número.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Funcionamiento
 
-### Code Splitting
+La representación de un yard utiliza canva, pensado para hacer sistemas interactivos eficientes. Se encuentra implementado un grid que simboliza la distribución de los yards en dos dimensiones. La celda de color rojo (que representa un object) podrá funcionar como un drag-and-drop a lo largo del grid, respetando las reglas del negocio.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Aprovechando algunos eventos que se disparan con las interacciones (al dar clic para arrastrar un container, al tenerlo arrastrado y al soltarlo), usamos código JS para representar dichos comportamientos.
 
-### Analyzing the Bundle Size
+En la consola del navegador se está imprimiendo la posición del container una vez se suelta, junto con su posición anterior, en un par [X, Y]. Esta lógica permitirá comparar contra el array de **/architecture** y decir si una celda es válida para ubicar allí ese container/object.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Al guardar
 
-### Making a Progressive Web App
+El estado de la edición puede guardarse en memoria durante la ejecución (una variable) y hacer el update (opción con botón Save).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Por otro lado también se puede guardar por cada edición (implementación de WebSockets o guardado automático por HTTP en el dragEnd). Tener en cuenta costes de memoria, número de peticiones a servidores y latencia y performance.

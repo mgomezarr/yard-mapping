@@ -32,20 +32,38 @@ export const Create = () => {
         </p>
 
         <div>
-          <label style={{ fontWeight: "bold" }}>Yard name</label>
-          <br />
-          <input type="text"></input>
-          <br />
-          <label style={{ fontWeight: "bold" }}>Rows</label>
-          <input type="number"></input>
-          <label style={{ fontWeight: "bold" }}>Columns</label>
-          <input type="number"></input>
-          <label style={{ fontWeight: "bold" }}>Defined limits</label>
-          <input type="number" disabled={true}></input>
-          <label style={{ fontWeight: "bold" }}>Spot limits</label>
-          <input type="number"></input>
-          <label style={{ fontWeight: "bold" }}>Stack limit?</label>
-          <input type="number" />
+          {/* Form section */}
+          {/* First input */}
+          <div style={{ margin: "15px 0" }}>
+            <label style={{ fontWeight: "bold" }}>Yard name</label>
+            <br />
+            <input style={{ width: "50%" }} type="text"></input>
+            <br />
+          </div>
+          {/* End first input */}
+          {/* Second row */}
+          <div style={{ display: "flex" }}>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <label style={{ fontWeight: "bold" }}>Rows</label>
+              <input style={{ width: "50%" }} type="number" min={0}></input>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <label style={{ fontWeight: "bold" }}>Columns</label>
+              <input style={{ width: "50%" }} type="number" min={0}></input>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <label style={{ fontWeight: "bold" }}>Defined limits</label>
+              <input style={{ width: "50%" }} type="number" disabled={true} />
+            </div>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <label style={{ fontWeight: "bold" }}>Spot limits</label>
+              <input style={{ width: "50%" }} type="number"></input>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <label style={{ fontWeight: "bold" }}>Stack limit?</label>
+              <input style={{ width: "50%" }} type="number" />
+            </div>
+          </div>
           <div>
             <label style={{ fontWeight: "bold" }}>Attach images</label>
             <input placeholder="Attach images" type="file"></input>

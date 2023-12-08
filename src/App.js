@@ -21,7 +21,10 @@ const App = () => {
     const stage = stageRef.current;
     const layer = layerRef.current;
 
-    createNewItem(50, 50, layer, stage, shadowRectangleRef);
+    createNewItem(300, 550, layer, stage, shadowRectangleRef); // Posición inicial del item a arrastrar. TODO: sujetos a un backend.
+    createNewItem(400, 550, layer, stage, shadowRectangleRef); // Posición inicial del segundo item a arrastrar.
+    createNewItem(500, 550, layer, stage, shadowRectangleRef); // ...
+    createNewItem(600, 550, layer, stage, shadowRectangleRef); // ...
     stage.add(layer);
 
     // Generar rectángulos con colores aleatorios
